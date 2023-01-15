@@ -1,22 +1,21 @@
 <?php require_once 'connection.php'?>
 <?php
-
+ session_start();
 mysqli_set_charset($conn,"utf8");
 // Check connection
 if ($conn->connect_error) {
     die("Error Connection failed: " . $conn->connect_error);
 }
 
-// $uid= $conn -> real_escape_string($_POST['uid']);
-// $pw= $conn -> real_escape_string($_POST['pw']);
-
 $sql3 = "SELECT accNo,lastMonthUnit,thisMonthUnit,numberOfUnits,totalBill FROM `details` ";
+$result3= mysqli_query($conn,$sql3);
 
- $result3= mysqli_query($conn,$sql3);
-//$row3 =mysqli_fetch_array($result3);
-//  $stateid=$row3['accNo'];
-
-// echo $stateid; 
+if ((isset($_SESSION['name']))=="TEST"){
+    $iptVal= "දත්ත ඈතුලත් කරන ලදි";
+}else{
+    $iptVal= "";
+}
+session_destroy();
 ?>
 
 
@@ -45,12 +44,13 @@ $sql3 = "SELECT accNo,lastMonthUnit,thisMonthUnit,numberOfUnits,totalBill FROM `
         <input type="text" class="search" placeholder="Search">
         <button class="btnsearch">Search</button>
     </div>
-
+   
 </nav>
 <div class="hero">
     <div class="row">
         <div class="col">
             <div class="sidecal">
+                <!-- <form action="save.php" method="post"> -->
                 <form action="save.php" method="post">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Account Number</label>
@@ -66,6 +66,13 @@ $sql3 = "SELECT accNo,lastMonthUnit,thisMonthUnit,numberOfUnits,totalBill FROM `
                     </div>
 
                     <button type="submit" class="btnsave">එක් කරන්න</button>
+
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong><?php echo $iptVal; ?></strong> 
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
                 </form>
 
             </div>

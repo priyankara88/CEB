@@ -1,6 +1,6 @@
 <?php require_once 'connection.php'?>
 <?php
-
+session_start();
 mysqli_set_charset($conn,"utf8");
 // Check connection
 if ($conn->connect_error) {
@@ -18,6 +18,9 @@ $sql = "insert into details(accNo,lastMonthUnit,thisMonthUnit,numberOfUnits,tota
 
 if ($conn->query($sql ) === TRUE) {
     // echo "OK";
+    //$_SESSION["id"] = "දත්ත ඈතුලත් කරන ලදි"; 
+    $_SESSION["name"] = "TEST";
+    header("location:home.php");
 }
 else {
     echo "Error: " . $sql . "<br>" . $conn->error;
