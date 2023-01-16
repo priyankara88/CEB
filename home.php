@@ -7,14 +7,37 @@ if ($conn->connect_error) {
     die("Error Connection failed: " . $conn->connect_error);
 }
 
+
 $sql3 = "SELECT accNo,lastMonthUnit,thisMonthUnit,numberOfUnits,totalBill FROM `details` ";
 $result3= mysqli_query($conn,$sql3);
 
-if ((isset($_SESSION['name']))=="TEST"){
-    $iptVal= "දත්ත ඈතුලත් කරන ලදි";
-}else{
-    $iptVal= "";
+// if ((isset($_SESSION['name']))=="TEST"){
+//     $iptVal= "දත්ත ඈතුලත් කරන ලදි";
+// }else{
+//     $iptVal= "එක් කිරිම නිවෑරදි නොවෙ";
+// }
+// $AcNum1="";
+// $LMUnit_Err1 ="";
+
+// $AcNum1 = $_SESSION["accountnumber_Err"];
+// $LMUnit_Err1 = $_SESSION["LMUnit_Err"];
+
+$Value= "";
+if(isset($_GET["error"]) ){
+
+    if($_GET["error"]==="emty_inputs"){
+
+        $Value="එක් කිරිම නිවෑරදි නොවෙ";
+    }else if($_GET["error"]==="success"){
+        $Value= "දත්ත ඈතුලත් කරන ලදි";
+    }else{
+        $Value= "";
+    }
+
 }
+//$BillAmt="";
+//  echo $_SESSION["bill"]; 
+ $amt = isset($_SESSION["bill"]) ? $_SESSION["bill"] : '';
 session_destroy();
 ?>
 
@@ -51,28 +74,40 @@ session_destroy();
         <div class="col">
             <div class="sidecal">
                 <!-- <form action="save.php" method="post"> -->
-                <form action="save.php" method="post">
+                <form action="save.php" method="post"  action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Account Number</label>
                         <input type="number" name="accNumber" class="form-control" id="number" aria-describedby="number" placeholder="Enter Account Number">
+                        <!-- <span><?php if(isset($AcNum1)) echo $AcNum1; ?></span> -->
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Last Month Unit</label>
                         <input type="number" name="LMUnit" class="form-control" id="LMUnit" placeholder="Last Month Unit">
+                        <!-- <span><?php if(isset($LMUnit_Err1)) echo $LMUnit_Err1; ?></span> -->
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Today Unit</label>
                         <input type="number" name="TUnit" class="form-control" id="LMUnit" placeholder="Today Unit">
+                        <span></span>
                     </div>
 
-                    <button type="submit" class="btnsave">එක් කරන්න</button>
+                    <button type="submit" name="btnsave" class="btnsave">එක් කරන්න</button>
 
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
-  <strong><?php echo $iptVal; ?></strong> 
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-    <span aria-hidden="true">&times;</span>
-  </button>
-</div>
+                    <strong><?php echo $Value; ?></strong> 
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+
+                    <div class="alert alert-success" role="alert">
+                    <h5 class="alert-heading">මෙම මස අය කිරිම:(රුපියල්)</h4>
+                     <p><?php echo $amt; ?></p> 
+  
+
+                        </div>
+
+
                 </form>
 
             </div>
